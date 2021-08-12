@@ -2,6 +2,8 @@
 // console.log([1, 2, 3, 4, 5]);
 const array = ['HTML', 'CSS', 'JavaScript', 'React', 'Python'];
 console.log(array);
+
+// console.log(array);
 // console.log(array.length);
 
 // ==========================================================
