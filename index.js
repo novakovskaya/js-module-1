@@ -11,4 +11,5 @@
 // import './js/module4-stack.js';
 // import './js/module4-this.js';
 
-import './js/module5-prototypes.js';
+// import './js/module5-constructor.js';
+import './js/module5-classes.js';
