@@ -12,4 +12,7 @@
 // import './js/module4-this.js';
 
 // import './js/module5-constructor.js';
-import './js/module5-classes.js';
+// import './js/module5-classes.js';
+
+import './js/module6-methods.js';
+// import './js/module6-methods-short.js';
