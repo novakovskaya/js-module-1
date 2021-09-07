@@ -14,5 +14,7 @@
 // import './js/module5-constructor.js';
 // import './js/module5-classes.js';
 
-import './js/module6-methods.js';
+// import './js/module6-methods.js';
 // import './js/module6-methods-short.js';
+
+import './js/module7-dom.js';

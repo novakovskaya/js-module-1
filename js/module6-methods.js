@@ -204,19 +204,148 @@ const result1 = students
   .filter(student => student.gender === 'male')
   .map(man => man.name)
   .sort((firstName, secondName) => firstName.localeCompare(secondName));
-console.log('Result:', result1); //["Alex", "Max", "Tom"]
+// console.log('Result:', result1); //["Alex", "Max", "Tom"]
 
 //Самый младший студент
 const result2 = [...students].sort((min, max) => min.age - max.age)[0];
-console.log('Result:', result2); //{name: "Max", age: 21, gender: "male"}
+// console.log('Result:', result2); //{name: "Max", age: 21, gender: "male"}
 
 //Самый старший студент
 const result3 = [...students].sort((min, max) => max.age - min.age)[0];
-console.log('Result:', result3); //name: "Tom", age: 40, gender: "male"}
+// console.log('Result:', result3); //name: "Tom", age: 40, gender: "male"}
 
 //Средний возраст студентов
 const result4 = students.reduce(
   (acc, item, index, arr) => Math.round((acc += item.age / arr.length)),
   0,
 );
-console.log('Result:', result4); //28
+// console.log('Result:', result4); //28
+
+// Функция с побочными эффектами
+const dirtyMultiply = (array, value) => {
+  for (let i = 0; i < array.length; i += 1) {
+    array[i] *= value;
+  }
+};
+
+const dirtyNum = [1, 2, 3, 4, 5];
+// console.log(dirtyNum); //[1, 2, 3, 4, 5]
+
+dirtyMultiply(dirtyNum, 2);
+// console.log(dirtyNum); //[2, 4, 6, 8, 10] - мутирует исходный массив по ссылке
+
+// Чистые функции (pure functions)
+const pureMultiply = (array, value) => {
+  const result = [];
+
+  for (let i = 0; i < array.length; i += 1) {
+    result.push(array[i] * value);
+  }
+
+  return result;
+};
+
+const pureNum = [2, 4, 6, 8];
+// console.log(pureNum); //[2, 4, 6, 8]
+
+const newPureMultiply = pureMultiply(pureNum, 2);
+// console.log(newPureMultiply); //[4, 8, 12, 16]
+
+// === PRACTICE === //
+const arr = [
+  { name: 'Albert', surname: 'Einstein', born: 1879, dead: 1955, id: 1 },
+  { name: 'Isaac', surname: 'Newton', born: 1643, dead: 1727, id: 2 },
+  { name: 'Galileo', surname: 'Galilei', born: 1564, dead: 1642, id: 3 },
+  { name: 'Marie', surname: 'Curie', born: 1867, dead: 1934, id: 4 },
+  { name: 'Johannes', surname: 'Kepler', born: 1571, dead: 1630, id: 5 },
+  { name: 'Nicolaus', surname: 'Copernicus', born: 1473, dead: 1543, id: 6 },
+  { name: 'Max', surname: 'Planck', born: 1858, dead: 1947, id: 7 },
+  { name: 'Katherine', surname: 'Blodgett', born: 1898, dead: 1979, id: 8 },
+  { name: 'Ada', surname: 'Lovelace', born: 1815, dead: 1852, id: 9 },
+  { name: 'Sarah E.', surname: 'Goode', born: 1855, dead: 1905, id: 10 },
+  { name: 'Lise', surname: 'Meitner', born: 1878, dead: 1968, id: 11 },
+  { name: 'Hanna', surname: 'Hammarström', born: 1829, dead: 1909, id: 12 },
+];
+
+// console.table(arr);
+
+// #1. Получить массив ученых, которые родились в 19 веке
+let result = arr.filter(obj => obj.born >= 1801 && obj.born < 1900);
+// console.log('Result:', result);
+
+// #2. Найти общую сумму лет, сколько прожили все ученые
+result = arr.reduce((acc, obj) => {
+  const age = obj.dead - obj.born;
+  // console.log(age);
+
+  return (acc += age);
+}, 0);
+// console.log('Result:', result); //861
+
+// #3. Отсортировать ученых по алфавиту
+//     по имени
+result = arr.sort((first, second) => first.name.localeCompare(second.name));
+// console.log('Result:', result);
+
+//     по фамилии
+result = arr.sort((first, second) =>
+  first.surname.localeCompare(second.surname),
+);
+// console.log('Result:', result);
+
+// #4. Отсортировать ученых по количеству прожитых лет
+result = arr.sort((a, b) => a.dead - a.born - (b.dead - b.born));
+// console.log('Result:', result);
+// result.forEach(obj => console.log(obj.dead - obj.born)); // проверка
+
+// #5. Удалить из массива ученых родившихся в 15 или 16 или 17 веке (1401-1700)
+result = arr.filter(obj => obj.born > 1700);
+// console.log('Result:', result);
+
+// #6. Найти ученого который родился позже
+result = arr.sort((a, b) => b.born - a.born)[0];
+// console.log('Result:', result); //Katherine Blodgett
+
+// #7. Найти год рождения Albert Einstein
+//    1й способ
+result = arr.find(
+  obj => obj.name + ' ' + obj.surname === 'Albert Einstein',
+).born;
+// console.log('Result:', result); //1879
+
+//    2й способ
+result = arr.reduce((acc, obj) => {
+  if (obj.name + ' ' + obj.surname === 'Albert Einstein') {
+    acc = obj.born;
+  }
+
+  return acc;
+}, 0);
+// console.log('Result:', result); //1879
+
+// #8. Найти ученых фамилия которых начинается на букву С
+result = arr.filter(obj => obj.surname[0] === 'C');
+// console.log('Result:', result);
+
+// #9. Удалить из массива всех ученых имя которых начинается на A
+result = arr.filter(obj => obj.name[0] !== 'A');
+// console.log('Result:', result);
+
+// #10. Найти ученого прожившего больше всех и ученого прожившего меньше всех лет
+result = arr.sort((a, b) => a.dead - a.born - (b.dead - b.born))[
+  arr.length - 1
+];
+// console.log('Result:', result); // больше всех - Lise Meitner
+
+result = arr.sort((a, b) => a.dead - a.born - (b.dead - b.born))[0]; //меньше всех - Ada Lovelace
+// console.log('Result:', result);
+
+// result = arr.forEach(el => console.log(el.dead - el.born));
+
+// #11. Найти ученых в которых совпадают первые буквы имени и фамилии
+result = arr.filter(obj => obj.name[0] === obj.surname[0]);
+// console.log('Result:', result);
+
+// #12. Узнать все ли ученые работали в 19 веке (1801 - 1900)
+result = arr.every(obj => obj.born > 1801 && obj.dead < 1900);
+// console.log('Result:', result); //false
