@@ -156,3 +156,7 @@ titleByTag.removeChild(cloneBtnPrepend);
 
 cloneBtnBefore.remove();
 cloneBtnAfter.remove();
+
+const array = ['html', 'js', 'css', 'react', 'nodejs'];
+console.log(array);
+console.log(array.at(-1)); // последний элемент
